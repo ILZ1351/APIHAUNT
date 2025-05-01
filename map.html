@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Haunted NYC Map</title>
+  <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Special+Elite&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #1a1a1a;
+      color: #e0e0e0;
+      font-family: 'Special Elite', cursive;
+    }
+
+    #header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      padding: 1rem;
+      z-index: 1000;
+      text-align: center;
+      border-bottom: 2px solid #4a1a4a;
+    }
+
+    h1 {
+      font-family: 'Creepster', cursive;
+      color: #ff6b6b;
+      margin: 0;
+      font-size: 2.5rem;
+      text-shadow: 2px 2px 4px #000;
+    }
+
+    #map {
+      height: 100vh;
+      width: 100%;
+      filter: grayscale(0.8) sepia(0.2);
+    }
+
+    #controls {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: rgba(0, 0, 0, 0.8);
+      padding: 1rem;
+      border-radius: 8px;
+      border: 1px solid #4a1a4a;
+      z-index: 1000;
+    }
+
+    .control-btn {
+      background-color: #4a1a4a;
+      color: #e0e0e0;
+      border: none;
+      padding: 8px 16px;
+      margin: 5px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: 'Special Elite', cursive;
+      transition: all 0.3s ease;
+    }
+
+    .control-btn:hover {
+      background-color: #6b2b6b;
+      transform: scale(1.05);
+    }
+
+    .haunted-info {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: rgba(0, 0, 0, 0.9);
+      padding: 2rem;
+      border-radius: 8px;
+      border: 2px solid #4a1a4a;
+      max-width: 400px;
+      z-index: 1001;
+    }
+
+    .haunted-info h2 {
+      color: #ff6b6b;
+      font-family: 'Creepster', cursive;
+      margin-top: 0;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: none;
+      border: none;
+      color: #e0e0e0;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .legend {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background-color: rgba(0, 0, 0, 0.8);
+      padding: 1rem;
+      border-radius: 8px;
+      border: 1px solid #4a1a4a;
+      z-index: 1000;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      margin: 5px 0;
+    }
+
+    .legend-icon {
+      width: 20px;
+      height: 20px;
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div id="header">
+    <h1>Haunted NYC Map</h1>
+  </div>
+
+  <div id="map"></div>
+  
+  <div id="controls">
+    <button class="control-btn" onclick="toggleNightMode()">🌙 Night Mode</button>
+    <button class="control-btn" onclick="toggleHauntedStories()">👻 Stories</button>
+  </div>
+
+  <div class="legend">
+    <h3>Location Types</h3>
+    <div class="legend-item">
+      <img class="legend-icon" src="http://maps.google.com/mapfiles/ms/icons/red-dot.png" alt="Residential">
+      <span>Residential</span>
+    </div>
+    <div class="legend-item">
+      <img class="legend-icon" src="http://maps.google.com/mapfiles/ms/icons/blue-dot.png" alt="Museum">
+      <span>Museum</span>
+    </div>
+    <div class="legend-item">
+      <img class="legend-icon" src="http://maps.google.com/mapfiles/ms/icons/green-dot.png" alt="Restaurant">
+      <span>Restaurant</span>
+    </div>
+    <div class="legend-item">
+      <img class="legend-icon" src="http://maps.google.com/mapfiles/ms/icons/yellow-dot.png" alt="Hotel">
+      <span>Hotel</span>
+    </div>
+    <div class="legend-item">
+      <img class="legend-icon" src="http://maps.google.com/mapfiles/ms/icons/purple-dot.png" alt="Bar">
+      <span>Bar</span>
+    </div>
+    <div class="legend-item">
+      <img class="legend-icon" src="http://maps.google.com/mapfiles/ms/icons/orange-dot.png" alt="Theater">
+      <span>Theater</span>
+    </div>
+  </div>
+
+  <div id="hauntedInfo" class="haunted-info">
+    <button class="close-btn" onclick="closeHauntedInfo()">×</button>
+    <h2>Haunted Location</h2>
+    <p id="hauntedDescription"></p>
+  </div>
+
+  <!-- Load Google Maps API first -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
+  <!-- Then load our custom JavaScript -->
+  <script src="um.js"></script>
+  <!-- Initialize the map after both scripts are loaded -->
+  <script>
+    window.onload = function() {
+      initMap();
+    };
+  </script>
+</body>
+</html>

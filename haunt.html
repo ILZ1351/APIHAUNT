@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Haunted NYC Map</title>
+  <style>
+    #map {
+      height: 100vh;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <script>
+    let map;
+
+    function initMap() {
+      map = new google.maps.Map(document.getElementById('map'), {
+        center: { lat: 40.7128, lng: -74.0060 }, // NYC
+        zoom: 12,
+        styles: [
+          {
+            "stylers": [
+              { "saturation": -100 },
+              { "lightness": -20 }
+            ]
+          }
+        ]
+      });
+    }
+
+    function addHauntedMarker(lat, lng, name) {
+      const marker = new google.maps.Marker({
+        position: { lat, lng },
+        map: map,
+        title: name,
+        icon: {
+          url: "http://maps.google.com/mapfiles/ms/icons/purple-dot.png"
+        }
+      });
+
+      marker.addListener("click", () => {
+        alert("You feel a chill near: " + name);
+      });
+    }
+  </script>
+
+  <script async
+    src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap">
+  </script>
+</body>
+</html>
